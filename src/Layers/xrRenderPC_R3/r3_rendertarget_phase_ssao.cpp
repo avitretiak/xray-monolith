@@ -47,11 +47,11 @@ void CRenderTarget::phase_ssao()
 	fSSAOKernelSize /= tan(deg2rad(Device.fFOV));
 
 	// Fill VB
-	float scale_X = float(Device.dwWidth) * 0.5f / float(TEX_jitter);
-	float scale_Y = float(Device.dwHeight) * 0.5f / float(TEX_jitter);
+	float scale_X = float(RCache.get_render_width()) * 0.5f / float(TEX_jitter);
+	float scale_Y = float(RCache.get_render_height()) * 0.5f / float(TEX_jitter);
 
 	u32 _w = RCache.get_render_width() / 2;
-	u32 _h = Device.get_render_height() / 2;
+	u32 _h = RCache.get_render_height() / 2;
 
 	set_viewport(HW.pDevice, _w, _h);
 
@@ -104,7 +104,7 @@ void CRenderTarget::phase_ssao()
 		//RCache.set_Stencil( FALSE, D3DCMP_EQUAL, 0x01, 0xff, 0 );
 	}
 
-	set_viewport(HW.pDevice, Device.dwWidth, Device.dwHeight);
+	set_viewport(HW.pDevice, RCache.get_render_width(), RCache.get_render_height());
 
 	RCache.set_Stencil(FALSE);
 }
@@ -165,5 +165,5 @@ void CRenderTarget::phase_downsamp()
 	}
 
 	if (RImplementation.o.ssao_half_data)
-		set_viewport(HW.pDevice, Device.dwWidth, Device.dwHeight);
+		set_viewport(HW.pDevice, RCache.get_render_width(), RCache.get_render_height());
 }
