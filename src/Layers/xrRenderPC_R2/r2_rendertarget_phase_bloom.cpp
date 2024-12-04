@@ -79,8 +79,8 @@ void CRenderTarget::phase_bloom()
 
 	// Transfer into Bloom1
 	{
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		float _2w = _w / 2;
 		float tw = BLOOM_size_X;
 		float _2h = _h / 2;

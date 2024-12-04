@@ -124,8 +124,8 @@ void CRenderTarget::phase_downsamp()
 	u_setrt(rt_half_depth, 0, 0, 0/*HW.pBaseZB*/);
 	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	HW.pContext->ClearRenderTargetView(rt_half_depth->pRT, ColorRGBA);
-	u32 w = Device.dwWidth;
-	u32 h = Device.dwHeight;
+	u32 w = RCache.get_render_width();
+	u32 h = RCache.get_render_height();
 
 	if (RImplementation.o.ssao_half_data)
 	{

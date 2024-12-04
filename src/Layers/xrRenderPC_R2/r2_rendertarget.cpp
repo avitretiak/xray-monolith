@@ -59,8 +59,8 @@ void CRenderTarget::u_stencil_optimize(BOOL common_stencil)
 	VERIFY(RImplementation.o.nvstencil);
 	RCache.set_ColorWriteEnable(FALSE);
 	u32 Offset;
-	float _w = float(Device.dwWidth);
-	float _h = float(Device.dwHeight);
+	float _w = RCache.get_render_width();
+	float _h = RCache.get_render_height();
 	u32 C = color_rgba(255, 255, 255, 255);
 	float eps = EPS_S;
 	FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
@@ -83,8 +83,8 @@ void CRenderTarget::u_stencil_optimize(BOOL common_stencil)
 // 2D texgen (texture adjustment matrix)
 void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
 {
-	float _w = float(Device.dwWidth);
-	float _h = float(Device.dwHeight);
+	float _w = RCache.get_render_width();
+	float _h = RCache.get_render_height();
 	float o_w = (.5f / _w);
 	float o_h = (.5f / _h);
 	Fmatrix m_TexelAdjust =
@@ -254,7 +254,7 @@ CRenderTarget::CRenderTarget()
 
 	//	NORMAL
 	{
-		u32 w = Device.dwWidth, h = Device.dwHeight;
+		u32 w = RCache.get_render_width(), h = RCache.get_render_height();
 		rt_Position.create(r2_RT_P, w, h, D3DFMT_A16B16G16R16F);
 		rt_Normal.create(r2_RT_N, w, h, D3DFMT_A16B16G16R16F);
 
@@ -427,8 +427,8 @@ CRenderTarget::CRenderTarget()
 
 	//SMAA
 	{
-		u32 w = Device.dwWidth;
-		u32 h = Device.dwHeight;
+		u32 w = RCache.get_render_width();
+		u32 h = RCache.get_render_height();
 
 		rt_smaa_edgetex.create(r2_RT_smaa_edgetex, w, h, D3DFMT_A8R8G8B8);
 		rt_smaa_blendtex.create(r2_RT_smaa_blendtex, w, h, D3DFMT_A8R8G8B8);
@@ -443,13 +443,13 @@ CRenderTarget::CRenderTarget()
 		u32 h = 0;
 		if (RImplementation.o.ssao_half_data)
 		{
-			w = Device.dwWidth / 2;
-			h = Device.dwHeight / 2;
+			w = RCache.get_render_width() / 2;
+			h = RCache.get_render_height() / 2;
 		}
 		else
 		{
-			w = Device.dwWidth;
-			h = Device.dwHeight;
+			w = RCache.get_render_width();
+			h = RCache.get_render_height();
 		}
 		D3DFORMAT fmt = HW.Caps.id_vendor == 0x10DE ? D3DFMT_R32F : D3DFMT_R16F;
 
@@ -460,7 +460,7 @@ CRenderTarget::CRenderTarget()
 	//SSAO
 	if (RImplementation.o.ssao_blur_on)
 	{
-		u32 w = Device.dwWidth, h = Device.dwHeight;
+		u32 w = RCache.get_render_width(), h = RCache.get_render_height();
 		rt_ssao_temp.create(r2_RT_ssao_temp, w, h, D3DFMT_G16R16F);
 		s_ssao.create(b_ssao, "r2\\ssao");
 	}
@@ -484,7 +484,7 @@ CRenderTarget::CRenderTarget()
 			u_setrt(rt_LUM_pool[it], 0, 0, 0);
 			CHK_DX(HW.pDevice->Clear( 0L, NULL, D3DCLEAR_TARGET, 0x7f7f7f7f, 1.0f, 0L));
 		}
-		u_setrt(Device.dwWidth, Device.dwHeight, HW.pBaseRT,NULL,NULL, HW.pBaseZB);
+		u_setrt(RCache.get_render_width(), RCache.get_render_height(), HW.pBaseRT, NULL, NULL, HW.pBaseZB);
 	}
 
 	// COMBINE
@@ -690,12 +690,12 @@ CRenderTarget::CRenderTarget()
 
 	//	Igor: TMP
 	//	Create an RT for online screenshot makining
-	//u32		w = Device.dwWidth, h = Device.dwHeight;
+	//u32		w = RCache.get_render_width(), h = RCache.get_render_height();
 	//HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,D3DFMT_A8R8G8B8,D3DPOOL_SYSTEMMEM,&pFB,NULL);
 	//HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth,Device.dwHeight,rt_Color->fmt,D3DPOOL_SYSTEMMEM,&pFB,NULL);
 	D3DSURFACE_DESC desc;
 	HW.pBaseRT->GetDesc(&desc);
-	HW.pDevice->CreateOffscreenPlainSurface(Device.dwWidth, Device.dwHeight, desc.Format, D3DPOOL_SYSTEMMEM, &pFB,NULL);
+	HW.pDevice->CreateOffscreenPlainSurface(RCache.get_render_width(), RCache.get_render_height(), desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
 
 	//
 	dwWidth = Device.dwWidth;
@@ -792,8 +792,8 @@ void CRenderTarget::reset_light_marker(bool bResetStencil)
 	{
 		RCache.set_ColorWriteEnable(FALSE);
 		u32 Offset;
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		u32 C = color_rgba(255, 255, 255, 255);
 		float eps = EPS_S;
 		FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);

@@ -43,12 +43,12 @@ void CRenderTarget::phase_combine()
 	if (Device.m_SecondViewport.IsSVPActive())	//--#SM+#-- +SecondVP+ Fix for screen flickering
 	{
 		// clang-format off
-		gpu_id = (Device.dwFrame - 1) % HW.Caps.iGPUNum;	// Ôeen "ia?öaíey" tonemapping (HDR) iînëa âueë?÷aíey äâîéíîaî ?aíäa?a. 
-															// Iîáî÷íué ýôôaeo - i?e ?aáîoa äâîéíîaî ?aíäa?a neî?înoü eçiaíaíey tonemapping (HDR) iaäaao â äâa ?aça
-															// Ia?öaíea nâyçaíî n oai, ÷oî HDR äëy nâîaé ?aáîou o?aíeo óiaíüoaííea eîiee "i?îoëuo eaä?îâ"
-															// Ýoe eaä?u îoíîneoaëüíî iîoîae ä?óa ía ä?óaa, îäíaeî i?e âeë?÷aííîi äâîéíîi ?aíäa?a
-															// â iîëîâeía eaä?îâ îeaçuâaaony ea?oeíea eç âoî?îaî ?aíäa?a, e iîneîëüeó îía ÷anoî iîaao îoëe÷aony iî öâaoó\y?eînoe
-															// oî i?e iîiuoea nîçäaíey "iëaâíîaî" ia?aoîäa iaaäó íeie iîëó÷aaony ýôôaeo ia?öaíey
+		gpu_id = (Device.dwFrame - 1) % HW.Caps.iGPUNum;	// ï¿½een "ia?ï¿½aï¿½ey" tonemapping (HDR) iï¿½nï¿½a ï¿½ueï¿½?ï¿½aï¿½ey ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½aï¿½ ?aï¿½ï¿½a?a. 
+															// Iï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ ï¿½ï¿½ï¿½aeo - i?e ?aï¿½ï¿½oa ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½aï¿½ ?aï¿½ï¿½a?a neï¿½?ï¿½noï¿½ eï¿½iaï¿½aï¿½ey tonemapping (HDR) iaï¿½aao ï¿½ ï¿½ï¿½a ?aï¿½a
+															// Ia?ï¿½aï¿½ea nï¿½yï¿½aï¿½ï¿½ n oai, ï¿½oï¿½ HDR ï¿½ï¿½y nï¿½ï¿½aï¿½ ?aï¿½ï¿½ou o?aï¿½eo ï¿½iaï¿½ï¿½oaï¿½ï¿½ea eï¿½iee "i?ï¿½oï¿½uo eaï¿½?ï¿½ï¿½"
+															// ï¿½oe eaï¿½?u ï¿½oï¿½ï¿½neoaï¿½ï¿½ï¿½ï¿½ iï¿½oï¿½ae ï¿½?ï¿½a ï¿½a ï¿½?ï¿½aa, ï¿½ï¿½ï¿½aeï¿½ i?e ï¿½eï¿½?ï¿½aï¿½ï¿½ï¿½i ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½i ?aï¿½ï¿½a?a
+															// ï¿½ iï¿½ï¿½ï¿½ï¿½eï¿½a eaï¿½?ï¿½ï¿½ ï¿½eaï¿½uï¿½aaony ea?oeï¿½ea eï¿½ ï¿½oï¿½?ï¿½aï¿½ ?aï¿½ï¿½a?a, e iï¿½neï¿½ï¿½ï¿½eï¿½ ï¿½ï¿½a ï¿½anoï¿½ iï¿½aao ï¿½oï¿½eï¿½aony iï¿½ ï¿½ï¿½aoï¿½\y?eï¿½noe
+															// oï¿½ i?e iï¿½iuoea nï¿½ï¿½ï¿½aï¿½ey "iï¿½aï¿½ï¿½ï¿½aï¿½" ia?aoï¿½ï¿½a iaaï¿½ï¿½ ï¿½eie iï¿½ï¿½ï¿½ï¿½aaony ï¿½ï¿½ï¿½aeo ia?ï¿½aï¿½ey
 
 	}
 	{
@@ -160,8 +160,8 @@ void CRenderTarget::phase_combine()
 		}
 
 		// Fill VB
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		p0.set(.5f / _w, .5f / _h);
 		p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 
@@ -296,7 +296,7 @@ void CRenderTarget::phase_combine()
 
 	// Combine everything + perform AA
 	if (PP_Complex) u_setrt(rt_Color, 0, 0, HW.pBaseZB); // LDR RT
-	else u_setrt(Device.dwWidth, Device.dwHeight, HW.pBaseRT,NULL,NULL, HW.pBaseZB);
+	else u_setrt(RCache.get_render_width(), RCache.get_render_height(), HW.pBaseRT, NULL, NULL, HW.pBaseZB);
 	//. u_setrt				( Device.dwWidth,Device.dwHeight,HW.pBaseRT,NULL,NULL,HW.pBaseZB);
 	RCache.set_CullMode(CULL_NONE);
 	RCache.set_Stencil(FALSE);
@@ -315,8 +315,8 @@ void CRenderTarget::phase_combine()
 			Fvector4 uv6;
 		};
 
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		float ddw = 1.f / _w;
 		float ddh = 1.f / _h;
 		p0.set(.5f / _w, .5f / _h);
@@ -596,8 +596,8 @@ void CRenderTarget::phase_combine_volumetric()
 		}
 
 		// Fill VB
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		p0.set(.5f / _w, .5f / _h);
 		p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 

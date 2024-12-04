@@ -39,8 +39,8 @@ void CRenderTarget::phase_ssao()
 		Fmatrix m_v2w;
 		m_v2w.invert(Device.mView);
 		// Fill VB
-		float _w = float(Device.dwWidth);
-		float _h = float(Device.dwHeight);
+		float _w = RCache.get_render_width();
+		float _h = RCache.get_render_height();
 		p0.set(.5f / _w, .5f / _h);
 		p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 

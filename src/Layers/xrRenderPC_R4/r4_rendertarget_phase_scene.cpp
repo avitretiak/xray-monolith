@@ -7,9 +7,9 @@ void CRenderTarget::phase_scene_prepare()
 
 		//	TODO: DX10: Check if we need to set RT here.
 		if (!RImplementation.o.dx10_msaa)
-			u_setrt(Device.dwWidth, Device.dwHeight, rt_Position->pRT,NULL,NULL, HW.pBaseZB);
+			u_setrt(RCache.get_render_width(), RCache.get_render_height(), rt_Position->pRT, NULL, NULL, HW.pBaseZB);
 		else
-			u_setrt(Device.dwWidth, Device.dwHeight, rt_Position->pRT,NULL,NULL, rt_MSAADepth->pZRT);
+			u_setrt(RCache.get_render_width(), RCache.get_render_height(), rt_Position->pRT, NULL, NULL, rt_MSAADepth->pZRT);
 
 		FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 		HW.pContext->ClearRenderTargetView(rt_Position->pRT, ColorRGBA);
@@ -87,8 +87,8 @@ void CRenderTarget::phase_scene_end()
 	// common calc for quad-rendering
 	u32 Offset;
 	u32 C = color_rgba(255, 255, 255, 255);
-	float _w = float(Device.dwWidth);
-	float _h = float(Device.dwHeight);
+	float _w = RCache.get_render_width();
+	float _h = RCache.get_render_height();
 	Fvector2 p0, p1;
 	p0.set(.5f / _w, .5f / _h);
 	p1.set((_w + .5f) / _w, (_h + .5f) / _h);
