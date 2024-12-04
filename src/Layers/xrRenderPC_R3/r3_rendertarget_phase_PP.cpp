@@ -23,8 +23,8 @@ void CRenderTarget::u_calc_tc_noise(Fvector2& p0, Fvector2& p1)
 	u32 shift_h = im_noise_shift_h;
 	float start_u = (float(shift_w) + .5f) / (tw);
 	float start_v = (float(shift_h) + .5f) / (th);
-	u32 _w = RCache.get_render_width();
-	u32 _h = RCache.get_render_height();
+	u32 _w = Device.dwWidth;
+	u32 _h = Device.dwHeight;
 	u32 cnt_w = _w / tw;
 	u32 cnt_h = _h / th;
 	float end_u = start_u + float(cnt_w) + 1;

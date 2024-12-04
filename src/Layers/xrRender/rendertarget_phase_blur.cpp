@@ -531,8 +531,8 @@ void CRenderTarget::phase_ssfx_water_waves()
 
 	float d_Z = EPS_S;
 	float d_W = 1.0f;
-	u32 w = RCache.get_render_width();
-	u32 h = RCache.get_render_height();
+	u32 w = Device.dwWidth;
+	u32 h = Device.dwHeight;
 
 
 	Fvector2 p0, p1;

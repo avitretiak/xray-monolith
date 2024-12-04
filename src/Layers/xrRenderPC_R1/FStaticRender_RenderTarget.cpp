@@ -254,7 +254,7 @@ void CRenderTarget::Begin()
 		// Base RT
 		RCache.set_RT(HW.pBaseRT);
 		RCache.set_ZB(HW.pBaseZB);
-		curWidth = RCache.get_render_width();
+		curWidth = RCache.get_render_height();
 		curHeight = RCache.get_render_height();
 	}
 	else

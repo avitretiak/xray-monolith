@@ -50,8 +50,8 @@ void CRenderTarget::phase_ssao()
 	float scale_X = float(Device.dwWidth) * 0.5f / float(TEX_jitter);
 	float scale_Y = float(Device.dwHeight) * 0.5f / float(TEX_jitter);
 
-	u32 _w = RCache.get_render_width() / 2;
-	u32 _h = Device.get_render_height() / 2;
+	u32 _w = Device.dwWidth / 2;
+	u32 _h = Device.dwHeight / 2;
 
 	set_viewport(HW.pDevice, _w, _h);
 
@@ -124,8 +124,8 @@ void CRenderTarget::phase_downsamp()
 	u_setrt(rt_half_depth, 0, 0, 0/*HW.pBaseZB*/);
 	FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	HW.pContext->ClearRenderTargetView(rt_half_depth->pRT, ColorRGBA);
-	u32 w = RCache.get_render_width();
-	u32 h = RCache.get_render_height();
+	u32 w = Device.dwWidth;
+	u32 h = Device.dwHeight;
 
 	if (RImplementation.o.ssao_half_data)
 	{
