@@ -7,6 +7,8 @@
 #define		r2_RT_P				"$user$position"		      // MRT
 #define		r2_RT_N				"$user$normal"			      // MRT
 #define		r2_RT_albedo		"$user$albedo"			      // MRT
+// TAA Velocity Vectors
+#define		r2_RT_velocity		"$user$velocity"			  // MRT
 
 // other
 #define		r2_RT_accum			"$user$accum"			// ---	16 bit fp or 16 bit fx
@@ -53,7 +55,7 @@
 #define		r2_jitter_mipped	"$user$jitter_mipped"			// --- dither
 #define		r2_sunmask			"sunmask"
 
-#define		r2_RT_secondVP		"$user$viewport2"		// --#SM+#-- +SecondVP+ O?aíeo ea?oeíeó nî âoî?îaî âü?iî?oa
+#define		r2_RT_secondVP		"$user$viewport2"		// --#SM+#-- +SecondVP+ O?aï¿½eo ea?oeï¿½eï¿½ nï¿½ ï¿½oï¿½?ï¿½aï¿½ ï¿½ï¿½?iï¿½?oa
 
 #define		r2_RT_blur_h_2	"$user$blur_h_2"
 #define		r2_RT_blur_2	"$user$blur_2"

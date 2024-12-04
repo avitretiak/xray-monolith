@@ -40,7 +40,7 @@ void CRenderTarget::phase_scene_begin()
 
 	if (RImplementation.o.dx10_msaa)
 		pZB = rt_MSAADepth->pZRT;
-
+	u_setrt(rt_Position, rt_Color, rt_Velocity, pZB);
 	// Targets, use accumulator for temporary storage
 	{
 		//--DSR-- HeatVision_start

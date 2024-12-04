@@ -29,6 +29,34 @@
 #include "blender_hdr10_bloom.h"
 #include "blender_hdr10_lens_flare.h"
 
+// TAA Velocity Vectors
+void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, const ref_rt& _4, ID3DDepthStencilView* zb)
+{
+	VERIFY(_1 || zb);
+	if (_1)	{
+		dwWidth = _1->dwWidth;
+		dwHeight = _1->dwHeight;
+	}
+	else {
+		D3D_DEPTH_STENCIL_VIEW_DESC	desc;
+		zb->GetDesc(&desc);
+		VERIFY(desc.ViewDimension == D3D_DSV_DIMENSION_TEXTURE2D);
+		ID3DResource* pRes;
+		zb->GetResource(&pRes);
+		ID3DTexture2D* pTex = (ID3DTexture2D*)pRes;
+		D3D_TEXTURE2D_DESC	TexDesc;
+		pTex->GetDesc(&TexDesc);
+		dwWidth = TexDesc.Width;
+		dwHeight = TexDesc.Height;
+		_RELEASE(pRes);
+	}
+	RCache.set_RT(_1 ? _1->pRT : NULL, 0);
+	RCache.set_RT(_2 ? _2->pRT : NULL, 1);
+	RCache.set_RT(_3 ? _3->pRT : NULL, 2);
+	RCache.set_RT(_4 ? _4->pRT : NULL, 3);
+	RCache.set_ZB(zb);
+}
+
 #include "../xrRender/dxRenderDeviceRender.h"
 #include "../xrRender/xrRender_console.h"
 
@@ -434,6 +462,7 @@ CRenderTarget::CRenderTarget()
 	{
 		u32 w = Device.dwWidth, h = Device.dwHeight;
 		rt_Position.create(r2_RT_P, w, h, D3DFMT_A16B16G16R16F, SampleCount);
+		rt_Normal.create(r2_RT_N, w, h, D3DFMT_A16B16G16R16F, SampleCount);
 
 		if (RImplementation.o.dx10_msaa)
 		{
