@@ -605,7 +605,7 @@ static class cl_screen_res : public R_constant_setup
 {
 	virtual void setup(R_constant* C)
 	{
-		RCache.set_c(C, RCache.get_render_width(), RCache.get_render_width(), 1.0f / RCache.get_render_width(),
+		RCache.set_c(C, RCache.get_render_width(), RCache.get_render_height(), 1.0f / RCache.get_render_width(),
 		             1.0f / RCache.get_render_height());
 	}
 } binder_screen_res;
