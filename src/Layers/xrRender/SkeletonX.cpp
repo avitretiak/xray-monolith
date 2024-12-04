@@ -87,7 +87,7 @@ void CSkeletonX::_Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
 
 	RCache.stat.r.s_dynamic.add(vCount);
 	Parent->StoreVisualMatrix(RCache.xforms.m_w);
-	RCache.set_xform_world_old(Parent->mOldWorldMartrix);
+	RCache.set_xform_world_old(Parent->mOldWorldMatrix);
 	switch (RenderMode)
 	{
 	case RM_SKINNING_SOFT:
@@ -154,6 +154,8 @@ void CSkeletonX::_Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
 		}
 		break;
 	}
+
+	RCache.set_xform_world_old(Fidentity);
 }
 
 void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)

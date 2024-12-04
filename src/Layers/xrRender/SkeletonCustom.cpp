@@ -103,8 +103,8 @@ CKinematics::CKinematics()
 #endif
 
 	m_is_original_lod = false;
-	mOldWorldMartrix.identity();
-	mOldWorldMartrixTmp.identity();
+	mOldWorldMatrix.identity();
+	mOldWorldMatrixTmp.identity();
 	dwFirstRenderFrame = u32(-1);
 }
 
@@ -903,12 +903,12 @@ void CKinematics::StoreVisualMatrix(Fmatrix& world_matrix)
 {
 	if (dwFirstRenderFrame != RDEVICE.dwFrame) {
 		dwFirstRenderFrame = RDEVICE.dwFrame;
-		mOldWorldMartrix.set(mOldWorldMartrixTmp);
-		mOldWorldMartrixTmp.set(world_matrix);
+		mOldWorldMatrix.set(mOldWorldMatrixTmp);
+		mOldWorldMatrixTmp.set(world_matrix);
 		for (u16 i = 0; i < LL_BoneCount(); ++i) {
 			auto& Bi = LL_GetBoneInstance(i);
-			Bi.mRenderTransform_old.set(Bi.mRenderTransform_temp);
-			Bi.mRenderTransform_tmp.set(Bi.mRenderTransform);
+			Bi.mRenderTransform_prev.set(Bi.mRenderTransform_temp);
+			Bi.mRenderTransform_temp.set(Bi.mRenderTransform);
 		}
 	}
 }
