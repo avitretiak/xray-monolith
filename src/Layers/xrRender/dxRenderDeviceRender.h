@@ -55,6 +55,7 @@ public:
 	virtual void ResourcesStoreNecessaryTextures();
 	virtual void ResourcesDumpMemoryUsage();
 	virtual void ResourcesPrefetchCreateTexture(LPCSTR name);
+	virtual void SetCacheXformOld(Fmatrix& mView, Fmatrix& mProject);
 
 	//	HWSupport
 	virtual bool HWSupportsShaderYUV2RGB();
