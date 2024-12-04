@@ -79,6 +79,10 @@ public:
 	Fmatrix mProject_saved;
 	Fmatrix mFullTransform_saved;
 
+	Fmatrix	mView_old;
+	Fmatrix	mProject_old;
+	Fmatrix	mFullTransform_old;
+
 	float fFOV;
 	float fASPECT;
 	float ViewportNear = 0.2f;
@@ -123,7 +127,7 @@ public:
 	{
 		bool isActive; // Oeaa aeoeaaoee ?aiaa?a ai aoi?ie au?ii?o
 		u8 frameDelay;  // Ia eaeii eaa?a n iiiaioa i?ioeiai ?aiaa?a ai aoi?ie au?ii?o iu ia?i?i iiaue
-						  //(ia ii?ao auou iaiuoa 2 - ea?aue aoi?ie eaa?, ?ai aieuoa oai aieaa ieceee FPS ai aoi?ii au?ii?oa)
+		//(ia ii?ao auou iaiuoa 2 - ea?aue aoi?ie eaa?, ?ai aieuoa oai aieaa ieceee FPS ai aoi?ii au?ii?oa)
 
 	public:
 		bool isCamReady; // Oeaa aioiaiinoe eaia?u (FOV, iiceoey, e o.i) e ?aiaa?o aoi?iai au?ii?oa
@@ -138,8 +142,8 @@ public:
 			frameDelay = iDelay;
 			clamp<u8>(frameDelay, 2, u8(-1));
 		}
-	};	
-	
+	};
+
 private:
 	// Main objects used for creating and rendering the 3D scene
 	u32 m_dwWindowStyle;
@@ -239,15 +243,15 @@ public:
 		:
 		m_pRender(0)
 #ifdef INGAME_EDITOR
-        , m_editor_module(0),
-        m_editor_initialize(0),
-        m_editor_finalize(0),
-        m_editor(0),
-        m_engine(0)
+		, m_editor_module(0),
+		m_editor_initialize(0),
+		m_editor_finalize(0),
+		m_editor(0),
+		m_engine(0)
 #endif // #ifdef INGAME_EDITOR
 #ifdef PROFILE_CRITICAL_SECTIONS
-        ,mt_csEnter(MUTEX_PROFILE_ID(CRenderDevice::mt_csEnter))
-        ,mt_csLeave(MUTEX_PROFILE_ID(CRenderDevice::mt_csLeave))
+		, mt_csEnter(MUTEX_PROFILE_ID(CRenderDevice::mt_csEnter))
+		, mt_csLeave(MUTEX_PROFILE_ID(CRenderDevice::mt_csLeave))
 #endif // #ifdef PROFILE_CRITICAL_SECTIONS
 	{
 		m_hWnd = NULL;
@@ -256,10 +260,10 @@ public:
 		b_hide_cursor = FALSE;
 		Timer.Start();
 		m_bNearer = FALSE;
-		
+
 		m_SecondViewport.SetSVPActive(false);
 		m_SecondViewport.SetSVPFrameDelay(2);
-		m_SecondViewport.isCamReady = false;			
+		m_SecondViewport.isCamReady = false;
 	};
 
 	void Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason);
@@ -340,22 +344,22 @@ private:
 	virtual CStatsPhysics* _BCL StatPhysics() { return Statistic; }
 #ifdef INGAME_EDITOR
 public:
-    IC editor::ide* editor() const { return m_editor; }
+	IC editor::ide* editor() const { return m_editor; }
 
 private:
-    void initialize_editor();
-    void message_loop_editor();
+	void initialize_editor();
+	void message_loop_editor();
 
 private:
-    typedef editor::initialize_function_ptr initialize_function_ptr;
-    typedef editor::finalize_function_ptr finalize_function_ptr;
+	typedef editor::initialize_function_ptr initialize_function_ptr;
+	typedef editor::finalize_function_ptr finalize_function_ptr;
 
 private:
-    HMODULE m_editor_module;
-    initialize_function_ptr m_editor_initialize;
-    finalize_function_ptr m_editor_finalize;
-    editor::ide* m_editor;
-    engine_impl* m_engine;
+	HMODULE m_editor_module;
+	initialize_function_ptr m_editor_initialize;
+	finalize_function_ptr m_editor_finalize;
+	editor::ide* m_editor;
+	engine_impl* m_engine;
 #endif // #ifdef INGAME_EDITOR
 };
 
