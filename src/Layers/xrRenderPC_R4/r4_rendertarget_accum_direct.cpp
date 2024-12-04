@@ -50,8 +50,8 @@ void CRenderTarget::accum_direct(u32 sub_phase)
 	// Common calc for quad-rendering
 	u32 Offset;
 	u32 C = color_rgba(255, 255, 255, 255);
-	float _w = float(Device.dwWidth);
-	float _h = float(Device.dwHeight);
+	float _w = RCache.get_render_width();
+	float _h = RCache.get_render_height();
 	Fvector2 p0, p1;
 	p0.set(.5f / _w, .5f / _h);
 	p1.set((_w + .5f) / _w, (_h + .5f) / _h);
@@ -67,10 +67,9 @@ void CRenderTarget::accum_direct(u32 sub_phase)
 
 	// Perform masking (only once - on the first/near phase)
 	RCache.set_CullMode(CULL_NONE);
-	PIX_EVENT(SE_SUN_NEAR_sub_phase);
-	if (SE_SUN_NEAR == sub_phase) //.
-		//if( 0 )
+	if (SE_SUN_NEAR == sub_phase)
 	{
+		PIX_EVENT(SE_SUN_NEAR_sub_phase);
 		// Fill vertex buffer
 		FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
 		pv->set(EPS, float(_h + EPS), d_Z, d_W, C, p0.x, p1.y);
@@ -143,10 +142,10 @@ void CRenderTarget::accum_direct(u32 sub_phase)
 	// nv-stencil recompression
 	if (RImplementation.o.nvstencil && (SE_SUN_NEAR == sub_phase)) u_stencil_optimize(); //. driver bug?
 
-	PIX_EVENT(Perform_lighting);
 
 	// Perform lighting
 	{
+		PIX_EVENT(Perform_lighting);
 		phase_accumulator();
 		RCache.set_CullMode(CULL_NONE);
 		RCache.set_ColorWriteEnable();

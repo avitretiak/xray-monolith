@@ -122,8 +122,8 @@ static class cl_pos_decompress_params : public R_constant_setup
 		float VertTan = -1.0f * tanf(deg2rad(Device.fFOV / 2.0f));
 		float HorzTan = - VertTan / Device.fASPECT;
 
-		RCache.set_c(C, HorzTan, VertTan, (2.0f * HorzTan) / (float)Device.dwWidth,
-		             (2.0f * VertTan) / (float)Device.dwHeight);
+		RCache.set_c(C, HorzTan, VertTan, (2.0f * HorzTan) / RCache.get_render_width(),
+		             (2.0f * VertTan) / RCache.get_render_height());
 	}
 } binder_pos_decompress_params;
 
@@ -131,8 +131,8 @@ static class cl_pos_decompress_params2 : public R_constant_setup
 {
 	virtual void setup(R_constant* C)
 	{
-		RCache.set_c(C, (float)Device.dwWidth, (float)Device.dwHeight, 1.0f / (float)Device.dwWidth,
-		             1.0f / (float)Device.dwHeight);
+		RCache.set_c(C, RCache.get_render_width(), RCache.get_render_height(), 1.0f / RCache.get_render_width(),
+		             1.0f / RCache.get_render_height());
 	}
 } binder_pos_decompress_params2;
 
@@ -539,7 +539,7 @@ void CRender::create()
 	::PortalTraverser.initialize();
 	FluidManager.Initialize(70, 70, 70);
 	//	FluidManager.Initialize( 100, 100, 100 );
-	FluidManager.SetScreenSize(Device.dwWidth, Device.dwHeight);
+	FluidManager.SetScreenSize(RCache.get_width(), RCache.get_height());
 }
 
 void CRender::destroy()
@@ -625,7 +625,7 @@ void CRender::reset_end()
 	}
 	//-AVO
 
-	FluidManager.SetScreenSize(Device.dwWidth, Device.dwHeight);
+	FluidManager.SetScreenSize(RCache.get_width(), RCache.get_height());
 
 	// Set this flag true to skip the first render frame,
 	// that some data is not ready in the first frame (for example device camera position)

@@ -55,7 +55,7 @@ public:
 	IBlender* b_hdr10_bloom_downsample;
 	IBlender* b_hdr10_bloom_blur;
 	IBlender* b_hdr10_bloom_upsample;
-	
+
 	IBlender* b_hdr10_lens_flare_downsample;
 	IBlender* b_hdr10_lens_flare_fgen;
 	IBlender* b_hdr10_lens_flare_blur;
@@ -81,11 +81,11 @@ public:
 	IBlender* b_ssfx_ao;
 
 #ifdef DEBUG
-	struct		dbg_line_t		{
-		Fvector	P0,P1;
+	struct		dbg_line_t {
+		Fvector	P0, P1;
 		u32		color;
 	};
-	xr_vector<std::pair<Fsphere,Fcolor> >		dbg_spheres;
+	xr_vector<std::pair<Fsphere, Fcolor> >		dbg_spheres;
 	xr_vector<dbg_line_t>										dbg_lines;
 	xr_vector<Fplane>												dbg_planes;
 #endif
@@ -201,8 +201,8 @@ public:
 	ID3DTexture3D* t_material_surf;
 	ref_texture t_material;
 
-	ID3DTexture2D* t_noise_surf [TEX_jitter_count];
-	ref_texture t_noise [TEX_jitter_count];
+	ID3DTexture2D* t_noise_surf[TEX_jitter_count];
+	ref_texture t_noise[TEX_jitter_count];
 	ID3DTexture2D* t_noise_surf_mipped;
 	ref_texture t_noise_mipped;
 private:
@@ -290,7 +290,7 @@ private:
 	ref_shader s_hdr10_bloom_downsample;
 	ref_shader s_hdr10_bloom_blur;
 	ref_shader s_hdr10_bloom_upsample;
-	
+
 	ref_shader s_hdr10_lens_flare_downsample;
 	ref_shader s_hdr10_lens_flare_fgen;
 	ref_shader s_hdr10_lens_flare_blur;
@@ -363,7 +363,7 @@ public:
 	void u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb);
 	void u_setrt(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencilView* zb);
 	void u_setrt(u32 W, u32 H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3,
-	             ID3DDepthStencilView* zb);
+		ID3DDepthStencilView* zb);
 	void u_calc_tc_noise(Fvector2& p0, Fvector2& p1);
 	void u_calc_tc_duality_ss(Fvector2& r0, Fvector2& r1, Fvector2& l0, Fvector2& l1);
 	BOOL u_need_PP();
@@ -457,8 +457,12 @@ public:
 	virtual void set_color_gray(u32 f) { param_color_gray = f; }
 	virtual void set_color_add(const Fvector& f) { param_color_add = f; }
 
-	virtual u32 get_width() { return dwWidth; }
-	virtual u32 get_height() { return dwHeight; }
+	virtual u32					get_width();
+	virtual u32					get_height();
+	virtual u32					get_target_width();
+	virtual u32					get_target_height();
+	virtual u32					get_render_width();
+	virtual u32					get_render_height();
 
 	virtual void set_cm_imfluence(float f) { param_color_map_influence = f; }
 	virtual void set_cm_interpolate(float f) { param_color_map_interpolate = f; }
@@ -476,13 +480,13 @@ public:
 	void DoAsyncScreenshot();
 
 #ifdef DEBUG
-	IC void						dbg_addline				(Fvector& P0, Fvector& P1, u32 c)					{
-		dbg_lines.push_back		(dbg_line_t());
-		dbg_lines.back().P0		= P0;
-		dbg_lines.back().P1		= P1;
-		dbg_lines.back().color	= c;
+	IC void						dbg_addline(Fvector& P0, Fvector& P1, u32 c) {
+		dbg_lines.push_back(dbg_line_t());
+		dbg_lines.back().P0 = P0;
+		dbg_lines.back().P1 = P1;
+		dbg_lines.back().color = c;
 	}
-	IC void						dbg_addplane			(Fplane& P0,  u32 c)								{
+	IC void						dbg_addplane(Fplane& P0, u32 c) {
 		dbg_planes.push_back(P0);
 	}
 #else

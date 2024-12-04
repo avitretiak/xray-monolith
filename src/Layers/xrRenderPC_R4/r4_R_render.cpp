@@ -194,8 +194,8 @@ void CRender::render_menu()
 	Fvector2 p0, p1;
 	u32 Offset;
 	u32 C = color_rgba(255, 255, 255, 255);
-	float _w = float(Device.dwWidth);
-	float _h = float(Device.dwHeight);
+	float _w = RCache.get_width();
+	float _h = RCache.get_height();
 	float d_Z = EPS_S;
 	float d_W = 1.f;
 	p0.set(.5f / _w, .5f / _h);
@@ -237,7 +237,7 @@ void CRender::Render()
 	if (!(g_pGameLevel && g_hud)
 		|| bMenu)
 	{
-		Target->u_setrt(Device.dwWidth, Device.dwHeight, HW.pBaseRT,NULL,NULL, HW.pBaseZB);
+		Target->u_setrt(RCache.get_width(), RCache.get_height(), HW.pBaseRT,NULL,NULL, HW.pBaseZB);
 		return;
 	}
 
@@ -437,26 +437,6 @@ void CRender::Render()
 	if (split_the_scene_to_minimize_wait)
 	{
 		PIX_EVENT(DEFER_PART1_SPLIT);
-		// skybox can be drawn here
-		
-		if (0)
-		{
-			if (!RImplementation.o.dx10_msaa)
-				Target->u_setrt(Target->rt_Generic_0, Target->rt_Generic_1, 0, HW.pBaseZB);
-			else
-				Target->u_setrt(Target->rt_Generic_0_r, Target->rt_Generic_1, 0,
-				                RImplementation.Target->rt_MSAADepth->pZRT);
-			RCache.set_CullMode(CULL_NONE);
-			RCache.set_Stencil(FALSE);
-
-			// draw skybox
-			RCache.set_ColorWriteEnable();
-			//CHK_DX(HW.pDevice->SetRenderState			( D3DRS_ZENABLE,	FALSE				));
-			RCache.set_Z(FALSE);
-			g_pGamePersistent->Environment().RenderSky();
-			//CHK_DX(HW.pDevice->SetRenderState			( D3DRS_ZENABLE,	TRUE				));
-			RCache.set_Z(TRUE);
-		}
 
 		// level
 		Target->phase_scene_begin();
