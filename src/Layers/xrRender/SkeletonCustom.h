@@ -120,6 +120,13 @@ public:
 
 public:
 	dxRender_Visual* m_lod;
+
+public:
+	Fmatrix						mOldWorldMatrix;
+	Fmatrix						mOldWorldMatrixTmp;
+	u32							dwFirstRenderFrame;
+	void						StoreVisualMatrix(Fmatrix& world_matrix);
+
 protected:
 	SkeletonWMVec wallmarks;
 	u32 wm_frame;
@@ -237,6 +244,8 @@ public:
 	ICF Fmatrix& _BCL LL_GetTransform(u16 bone_id) { return LL_GetBoneInstance(bone_id).mTransform; }
 	ICF const Fmatrix& _BCL LL_GetTransform(u16 bone_id) const { return LL_GetBoneInstance(bone_id).mTransform; }
 	ICF Fmatrix& LL_GetTransform_R(u16 bone_id) { return LL_GetBoneInstance(bone_id).mRenderTransform; }
+	ICF Fmatrix& LL_GetTransform_R_old(u16 bone_id) { return LL_GetBoneInstance(bone_id).mRenderTransform_prev; }	// rendering only old
+
 	// rendering only
 	Fobb& LL_GetBox(u16 bone_id)
 	{

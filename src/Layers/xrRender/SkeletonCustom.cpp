@@ -103,6 +103,9 @@ CKinematics::CKinematics()
 #endif
 
 	m_is_original_lod = false;
+	mOldWorldMartrix.identity();
+	mOldWorldMartrixTmp.identity();
+	dwFirstRenderFrame = u32(-1);
 }
 
 CKinematics::~CKinematics()
@@ -894,6 +897,20 @@ int CKinematics::LL_GetBoneGroups(xr_vector<xr_vector<u16>>& groups)
 		}
 	}
 	return groups.size();
+}
+
+void CKinematics::StoreVisualMatrix(Fmatrix& world_matrix)
+{
+	if (dwFirstRenderFrame != RDEVICE.dwFrame) {
+		dwFirstRenderFrame = RDEVICE.dwFrame;
+		mOldWorldMartrix.set(mOldWorldMartrixTmp);
+		mOldWorldMartrixTmp.set(world_matrix);
+		for (u16 i = 0; i < LL_BoneCount(); ++i) {
+			auto& Bi = LL_GetBoneInstance(i);
+			Bi.mRenderTransform_old.set(Bi.mRenderTransform_temp);
+			Bi.mRenderTransform_tmp.set(Bi.mRenderTransform);
+		}
+	}
 }
 
 #ifdef DEBUG

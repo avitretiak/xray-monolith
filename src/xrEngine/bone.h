@@ -261,8 +261,8 @@ struct ECORE_API SJointIKData
 		for (int k = 0; k < 3; k++)
 		{
 			// Kostya Slipchenko say:
-			// направление вращения в ОДЕ отличается от направления вращение в X-Ray
-			// поэтому меняем знак у лимитов
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ X-Ray
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			//F.w_float (_min(-limits[k].limit.x,-limits[k].limit.y)); // min (swap special for ODE)
 			//F.w_float (_max(-limits[k].limit.x,-limits[k].limit.y)); // max (swap special for ODE)
 
@@ -597,6 +597,9 @@ IC void CBoneInstance::construct()
 {
 	mTransform.identity();
 	mRenderTransform.identity();
+	mRenderTransform_prev.identity();
+	mRenderTransform_temp.identity();
+
 	Callback = nullptr;
 	Callback_Param = nullptr;
 	Callback_overwrite = false;
